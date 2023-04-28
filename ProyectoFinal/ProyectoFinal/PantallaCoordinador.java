@@ -1,0 +1,251 @@
+package com.david.vista;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import com.david.manejador.*;
+import com.david.modelo.*;
+public class PantallaCoordinador{
+	Datos dato=new Datos();
+	ManejadorMateria aMateria=new ManejadorMateria();
+	ManejadorInstructor instru=new ManejadorInstructor();
+	ManejadorSalon sal=new ManejadorSalon();
+	Asignar asig=new Asignar();
+	ArrayList<Usuario> usuario=new ArrayList<Usuario>();
+	
+	
+	int opcion;
+	int idCurso=0;
+	int idI=0;
+	String nombreI;
+	String apellidoI;
+	int telefonoI;
+	String direccion;
+	int salon=0;
+	String nombreS;
+	int cantidadS;
+	
+	String nombreCurso;
+	String descripcionCurso;
+	String op;
+	
+	String mod;
+	String pregunta;
+	
+	public void menuCoordinador(){
+		System.out.println("------------------------------------");
+		System.out.println("[1]...Materia");
+		System.out.println("[2]...Instructor");
+		System.out.println("[3]...Asignar");
+		System.out.println("[4]...Reporte txt");
+		System.out.println("[5]...Cerrar Sesion");
+		System.out.println("------------------------------------");
+		
+		opcion=dato.leerNumero();
+		switch(opcion){
+			case 1:
+			this.menuMateria();
+			break;
+			
+			case 2:
+			this.menuInstructor();
+			break;
+			
+			case 3:
+			this.menuAsignar();
+			break;
+			
+			case 4:
+			this.menuReporte();
+			break;
+			
+		}
+		
+	}
+	
+	public void menuMateria(){
+		System.out.println("------------------------------------");
+		System.out.println("    HA ESCOGIFO MATERIA");
+		System.out.println("------------------------------------");
+		System.out.println("[1]...Agregar");
+		System.out.println("[2]...Modificar");
+		System.out.println("[3]...Eliminar");
+		System.out.println("[4]...Regresar");
+		
+		opcion=dato.leerNumero();
+		switch(opcion){
+			case 1:
+			do{
+				
+				idCurso++;
+				System.out.println(" HA ESCOGIDO LA OPCION DE AGREGAR MATERIA");
+				System.out.println("------------------------------------");
+				System.out.println("Ingrese el nombre de la materia");
+				System.out.println("------------------------------------");
+				System.out.println("                                    ");
+				nombreCurso=dato.leerTexto();
+				System.out.println("                                    ");
+				System.out.println("------------------------------------");
+				System.out.println("                                    ");
+				System.out.println("Ingrese una descripcion");
+				System.out.println("                                    ");
+				descripcionCurso=dato.leerTexto();
+				aMateria.agregarMateria(idCurso,nombreCurso,descripcionCurso);
+				
+				System.out.println("Desea Agregar Otro");
+				System.out.println("Ingrese [si] o [no]");
+				System.out.println("------------------------------------");
+				
+				op=dato.leerTexto();
+				
+			}while(op.equals("si"));
+			
+			aMateria.reporteMateria();
+			
+			System.out.println("1...Regresar");
+			opcion=dato.leerNumero();
+			
+			if(opcion==1){
+				this.menuMateria();
+			}
+			
+			break;
+			
+			case 2:
+			aMateria.modificarMateria();
+			aMateria.reporteMateria();
+			System.out.println("1...Regresar");
+			opcion=dato.leerNumero();
+			if(opcion==1){
+				this.menuMateria();
+			}
+			break;
+			case 3:
+			aMateria.eliminarMateria();
+			aMateria.reporteMateria();
+			System.out.println("1...Regresar");
+			opcion=dato.leerNumero();
+			if(opcion==1){
+				this.menuMateria();
+			}
+			case 4:
+			
+			this.menuCoordinador();
+			break;
+			
+		}
+		
+	}
+	
+	public void menuInstructor(){
+		System.out.println("------------------------------------");
+		System.out.println("      HA INGRESADO A INSTRUCTOR     ");
+		System.out.println("------------------------------------");
+		System.out.println("[1]...Agregar");
+		System.out.println("[2]...Modificar");
+		System.out.println("[3]...Eliminar");
+		System.out.println("[4]...Regresar");
+		System.out.println("------------------------------------");
+		
+		opcion=dato.leerNumero();
+		switch(opcion){
+			case 1:
+			do{
+				idI++;
+				
+				System.out.println("Ingrese el nombre del Instructor");
+				nombreI=dato.leerTexto();
+				System.out.println("Ingrese el apellido del Instructor");
+				apellidoI=dato.leerTexto();
+				System.out.println("Ingrese el numero de telefono del Instructor");
+				telefonoI=dato.leerNumero();
+				System.out.println("Ingrese la direccion del Instructor");
+				direccion=dato.leerTexto();
+				instru.agregarInstructor(idI,nombreI,apellidoI,telefonoI,direccion);
+				System.out.println("Desea Agregar Otro");
+				op=dato.leerTexto();
+			}while(op.equals("si"));
+			instru.reporteInstructor();
+			
+			System.out.println("1...Regresar");
+			opcion=dato.leerNumero();
+			if(opcion==1){
+				this.menuInstructor();
+			}
+			
+			break;
+			case 2:
+			instru.modificarInstructor();
+			instru.reporteInstructor();
+			System.out.println("1...Regresar");
+			opcion=dato.leerNumero();
+			
+			if(opcion==1){
+				this.menuInstructor();
+			}
+			break;
+			
+			case 3:
+			instru.eliminarInstructor();
+			instru.reporteInstructor();
+			System.out.println("1...Regresar");
+			opcion=dato.leerNumero();
+			if(opcion==1){
+				this.menuMateria();
+			}
+			
+			break;
+			
+			case 4:
+			this.menuCoordinador();
+			break;
+			
+		}
+		
+	}
+	public void menuReporte(){
+            String ruta;
+            String contenido;
+			System.out.println("Ingrese la ruta para crear el archivo txt");
+			ruta=dato.leerTexto();
+            File file = new File(ruta);
+			try{
+            if (!file.exists()) {
+				System.out.println("El archivo fue exitosamente creado");
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+           for(Usuario u: usuario){
+			   bw.write(u.getIdUsuario()+" "+u.getNombre()+" "+u.getRol()+" "+u.getClave());
+		   }
+            bw.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+		}
+		
+	}
+
+	
+	public void menuAsignar(){	
+		System.out.println("------------------------------------");
+		System.out.println("       HA ESCOGIDO ASIGNAR     ");
+		System.out.println("------------------------------------");
+		System.out.println("[1]...Agregar");
+		System.out.println("[2]...Modificar");
+		System.out.println("[3]...Eliminar");
+		System.out.println("[4]...Regresar");
+		System.out.println("------------------------------------");		
+		opcion=dato.leerNumero();
+		switch(opcion){
+			case 4:	
+			this.menuCoordinador();
+			break;
+			
+		}
+		
+	}
+}
+
+
+
